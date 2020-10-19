@@ -6,6 +6,7 @@
 package gestionClientes.gui;
 
 import gestionClientes.dto.Cliente;
+import gestionClientes.logica.logicaNegocio;
 import java.util.Date;
 
 /**
@@ -23,7 +24,7 @@ public class DialogoAlta extends javax.swing.JDialog {
     public DialogoAlta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         // almacenamos una referencia al Frame que crea el diálogo (para luego poder llamar a sus métodos)
-        pantallaPrincipal = (PantallaPrincipal) parent;
+        pantallaPrincipal = (PantallaPrincipal) parent; // no necesaria con logicaNegocio
         initComponents();
     }
 
@@ -154,7 +155,9 @@ public class DialogoAlta extends javax.swing.JDialog {
         // Creamos el cliente con los datos
         Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
         // como en el constructor tenemos una variable del tipo del Frame (PantallaPrincipal) podemos llamar a sus métodos
-        pantallaPrincipal.aniadirCliente(cliente);
+//  ********      pantallaPrincipal.aniadirCliente(cliente);
+        // Ya no nos hace falta la referencia a la pantallaPrincipal, Llamamos al método creado en logicaNegocio
+        logicaNegocio.aniadirCliente(cliente);
         dispose(); // siempre de último
     }//GEN-LAST:event_jButtonAltaActionPerformed
 

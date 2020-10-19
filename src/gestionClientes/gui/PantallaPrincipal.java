@@ -6,6 +6,8 @@
 package gestionClientes.gui;
 
 import gestionClientes.dto.Cliente;
+import gestionClientes.logica.logicaNegocio;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,24 +21,24 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     public PantallaPrincipal() {
         initComponents();
-        InicializarTabla();
+        refrescarTabla(); // refrescamos la tabla al principio de la aplicación
     }
 
-    private void InicializarTabla() {
+    private void refrescarTabla() {
         DefaultTableModel dtm = new DefaultTableModel(); // creamos el modelo dtm
 //        Esta clase permite añadir filas y columnas. De momento sólo añadimos columnas
 //        con setColumnIdentifiers sobre la marcha le pasamos un array de strings con los nombres de las columnas
         dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha Alta", "Provincia"});
+        
+        // añadimos las filas a la tabla
+        List<Cliente> listaClientes = logicaNegocio.getListaClientes();
+        // Hacemos un for each para rellenar la tabla con los valores del Array lista clientes
+        for(Cliente cliente : listaClientes)
+        {// añadimos al modelo cada una de las filas         
+            dtm.addRow(cliente.toArrayString());
+            // ya tenemos la tabla con las columnas y las filas          
+        }        
         jTableClientes.setModel(dtm); // a la tabla clientes le asignamos el modelo dtm que le mete los identificadores de columnas
-    }
-
-    public void aniadirCliente(Cliente cliente) // hay que hacer el import de cliente Alt + Intro
-    { // el cliente se añade a través del modelo
-        DefaultTableModel dtm = (DefaultTableModel) jTableClientes.getModel();
-        //cada fila requiere un array de strings. 
-//    En Cliente crearemos un método que devuelva un array de Strings con la información
-        dtm.addRow(cliente.toArrayString());//al modelo dtm le añadimos una fila con el array que devuelve el método toArrayString de cliente.
-
     }
 
     /**
@@ -106,6 +108,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private void jMenuItemAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAltaActionPerformed
         DialogoAlta dialogoAlta = new DialogoAlta(this, true);
         dialogoAlta.setVisible(true);
+        refrescarTabla(); // refrescamos la tabla con los datos del diálogo de Alta
     }//GEN-LAST:event_jMenuItemAltaActionPerformed
 
     /**
